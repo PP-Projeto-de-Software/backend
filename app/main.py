@@ -1,12 +1,20 @@
 # IMPORTAÇÃO FASTAPI
 from fastapi import FastAPI
 
+# IMPORTAÇÃO BANCO DE DADOS
+from app.database import engine, Base
+from app.models import cliente_models, veiculo_models, ordem_servico_models
+
 # IMPORTAÇÃO DAS ROTAS
 from app.routes import (
     cliente_routes,
     veiculo_routes,
     ordem_servico_routes
 )
+
+# CRIAÇÃO DAS TABELAS (BANCO DE DADOS)
+# Lê todos os modelos importados e cria as tabelas fisicamente na Azure
+Base.metadata.create_all(bind=engine)
 
 # CRIAÇÃO DA API
 app = FastAPI(
