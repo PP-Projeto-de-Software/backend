@@ -1,4 +1,4 @@
-"""
+
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.veiculo_models import Veiculo
 from app.models.cliente_models import Cliente
-from app.schemas.veiculo_models import VeiculoCreate, VeiculoResponse
+from app.schemas.veiculo_schemas import VeiculoCreate, VeiculoResponse
 
 
 router = APIRouter(
@@ -135,10 +135,10 @@ def deletar_veiculo(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Veículo não encontrado."
         )
-    
+
     db.delete(veiculo_db)
     db.commit()
-    
+
     return None
 
-"""
+
