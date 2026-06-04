@@ -181,3 +181,41 @@ def deletar_ordem_servico(
     db.delete(ordem)
 
     db.commit()
+
+@router.get("/dashboard")
+def dashboard_ordens(
+    db: Session = Depends(get_db)
+):
+
+    ordens = db.query(OrdemServico).all()
+
+    total_ordens = len(ordens)
+
+    pendentes = len([
+        o for o in ordens
+        if o.status == "Pendente"
+    ])
+
+    em_andamento = len([
+        o for o in ordens
+        if o.status == "Em Andamento"
+    ])
+
+    concluidas = len([
+        o for o in ordens
+        if o.status == "Concluído"
+    ])
+
+    faturamento_total = sum(
+        o.valor_total
+        for o in ordens
+        if o.status == "Concluído"
+    )
+
+    return {
+        "total_ordens": total_ordens,
+        "pendentes": pendentes,
+        "em_andamento": em_andamento,
+        "concluidas": concluidas,
+        "faturamento_total": faturamento_total
+    }
