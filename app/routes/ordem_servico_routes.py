@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from app.database import get_db
@@ -112,8 +111,8 @@ def criar_ordem_servico(
         descricao_problema=ordem.descricao_problema,
         status=ordem.status if ordem.status else "Pendente",
         valor_total=ordem.valor_total,
-        veiculo_id=ordem.veiculo_id,
-        data_abertura=ordem.data_abertura if ordem.data_abertura else datetime.now()
+        data_abertura=ordem.data_abertura if ordem.data_abertura else datetime.now(timezone.utc).replace(tzinfo=None),
+        veiculo_id=ordem.veiculo_id
     )
 
     db.add(nova_ordem)
@@ -180,7 +179,7 @@ def atualizar_ordem_servico(
     ordem_db.status = ordem.status
     ordem_db.valor_total = ordem.valor_total
     ordem_db.veiculo_id = ordem.veiculo_id
-    ordem_db.data_atualizacao = datetime.now()
+    ordem_db.data_atualizacao = datetime.now(timezone.utc).replace(tzinfo=None)
 
     db.commit()
     db.refresh(ordem_db)

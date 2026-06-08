@@ -18,6 +18,11 @@ router = APIRouter(
 
 
 @router.post(
+    "",
+    response_model=VeiculoResponse,
+    status_code=status.HTTP_201_CREATED
+)
+@router.post(
     "/",
     response_model=VeiculoResponse,
     status_code=status.HTTP_201_CREATED
@@ -76,6 +81,10 @@ def criar_veiculo(
     }
 
 
+@router.get(
+    "",
+    response_model=list[VeiculoResponse]
+)
 @router.get(
     "/",
     response_model=list[VeiculoResponse]

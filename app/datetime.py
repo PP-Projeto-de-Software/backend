@@ -8,7 +8,7 @@ def to_brazil_time(dt: datetime | None):
     if dt is None:
         return None
 
-    # garante que está em UTC
+    # Normaliza para UTC antes da conversão
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
 

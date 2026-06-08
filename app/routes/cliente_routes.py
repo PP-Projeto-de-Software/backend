@@ -19,9 +19,11 @@ router = APIRouter(
 
 
 @router.post(
+    "",
+    response_model=ClienteResponse
+)
+@router.post(
     "/",
-
-    
     response_model=ClienteResponse
 )
 def criar_cliente(
@@ -46,8 +48,11 @@ def criar_cliente(
 
 
 @router.get(
+    "",
+    response_model=list[ClienteResponse]
+)
+@router.get(
     "/",
-
     response_model=list[ClienteResponse]
 )
 def listar_clientes(
